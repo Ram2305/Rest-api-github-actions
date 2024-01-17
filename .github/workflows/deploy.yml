@@ -1,0 +1,43 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+      # - dev
+
+env:                    # workflow level whivh applies to all the jobs
+  MONGODB_DB_NAME: mydb # all the jobs should use the same db name & you can override it at job level & steps level
+jobs:
+  test:
+    env:  # job level env variable & they are job specific
+      MONGODB_CLUSTER_ADDRESS: cluster0.9gnhj.mongodb.net
+      MONGODB_USERNAME: vjram2305
+      MONGODB_PASSWORD: 2hHFhpJdCx37Kmlt
+      PORT: 8080
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-deps-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        run: npm start & npx wait-on http://127.0.0.1:$PORT # starting the webserver
+      - name: Run tests
+        run: npm test
+      - name: Output information
+        run: echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}" # this allows to acess all env variable
+        # run: echo "MONGODB_USERNAME: $MONGODB_USERNAME" # we can also use this
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |        
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}" # this wont be giving the value because it's a test job specific env variable
+          echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"  # this will display the variable as it is defined at workflow level
