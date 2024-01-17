@@ -11,8 +11,8 @@ jobs:
   test:
     env:  # job level env variable & they are job specific
       MONGODB_CLUSTER_ADDRESS: cluster0.9gnhj.mongodb.net
-      MONGODB_USERNAME: vjram2305
-      MONGODB_PASSWORD: 2hHFhpJdCx37Kmlt
+      MONGODB_USERNAME:  ${{ secrets.MONGODB_USERNAME}}    # referencing the secrets that are stored in the github repo
+      MONGODB_PASSWORD:  ${{ secrets.MONGODB_PASSWORD}}    # referencing the secrets that are stored in the github repo
       PORT: 8080
 
     runs-on: ubuntu-latest
