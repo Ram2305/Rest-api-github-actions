@@ -32,8 +32,8 @@ jobs:
         run: npm test
       - name: Output information
         run: |
-        echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}" 
-      # this allows to acess all job specific env variable
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}" 
+      # this allows us to access all the test job specific env variable
         
       # run: echo "MONGODB_USERNAME: $MONGODB_USERNAME" # we can also use this
   deploy:
