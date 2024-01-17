@@ -35,7 +35,7 @@ jobs:
           echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}" 
       # this allows us to access all the test job specific env variable
         
-      # run: echo "MONGODB_USERNAME: $MONGODB_USERNAME" # we can also use this
+      # run: echo "MONGODB_USERNAME: $MONGODB_USERNAME" # we can also use this but if it mentioned at job level only
   deploy:
     needs: test
     runs-on: ubuntu-latest
